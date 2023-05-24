@@ -1,0 +1,24 @@
+---
+driver:
+  name: dokken
+  chef_version: latest
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+verifier:
+  name: inspec
+
+platforms:
+- name: eerbit-debian-11
+  driver:
+    image: debian:bullseye-slim
+    platform: linux/amd64
+
+suites:
+  - name: default
+    run_list:
+    - recipe[errbit::default]
