@@ -1,24 +1,18 @@
 ---
 driver:
-  name: dokken
-  chef_version: latest
-
-transport:
-  name: dokken
-
+  name: vagrant
+ 
 provisioner:
-  name: dokken
-
-verifier:
-  name: inspec
-
+  name: chef_zero
+ 
 platforms:
-- name: eerbit-debian-11
-  driver:
-    image: debian:bullseye-slim
-    platform: linux/amd64
-
+  - name: ubuntu-22.04
+    driver:
+    customize:
+    memory: 256
+ 
 suites:
   - name: default
     run_list:
-    - recipe[errbit::default]
+    - recipe[mongodb-docker::default]
+    attributes:
