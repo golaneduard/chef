@@ -30,19 +30,16 @@ end
 execute 'ruby_configure' do
   command './configure'
   cwd     '/root/ruby-2.7.6/ruby-2.7.6'
-  not_if 'ruby'
 end
 
 #Execute make in ruby folder
 execute 'ruby_make' do
   command 'make'
   cwd     '/root/ruby-2.7.6/ruby-2.7.6'
-  not_if 'ruby'
 end
 
 #Execute make install in ruby folder
 execute 'ruby_make_install' do
   command 'make install'
   cwd     '/root/ruby-2.7.6/ruby-2.7.6'
-  not_if 'ruby'
 end
