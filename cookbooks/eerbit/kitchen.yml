@@ -1,18 +1,21 @@
 ---
 driver:
   name: vagrant
- 
+
 provisioner:
-  name: chef_zero
- 
+  name: chef_infra
+
 platforms:
-  - name: ubuntu-22.04
+  - name: debian
     driver:
-    customize:
-    memory: 256
- 
+      box: debian/bullseye64
+      box_check_update: false
+      customize:
+        memory: 2048
+        cpus: 2
+
 suites:
   - name: default
     run_list:
-    - recipe[mongodb-docker::default]
+      - recipe[eerbit::default]
     attributes:
