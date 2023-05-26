@@ -43,3 +43,8 @@ execute 'ruby_make_install' do
   command 'make install'
   cwd     '/root/ruby-2.7.6/ruby-2.7.6'
 end
+
+#Update gem
+execute 'gem update' do
+  command 'gem update --system'
+end
