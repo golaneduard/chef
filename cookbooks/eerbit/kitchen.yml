@@ -8,6 +8,8 @@ provisioner:
 platforms:
   - name: debian
     driver:
+      network:
+        - ["private_network", {ip: "192.168.56.10"}]
       box: debian/bullseye64
       box_check_update: false
       customize:
