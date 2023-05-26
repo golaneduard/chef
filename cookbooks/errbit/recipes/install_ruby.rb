@@ -1,5 +1,5 @@
 #
-# Cookbook:: eerbit
+# Cookbook:: errbit
 # Recipe:: install_ruby
 #
 # Copyright:: 2023, The Authors, All Rights Reserved.

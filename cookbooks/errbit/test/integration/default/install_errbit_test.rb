@@ -1,4 +1,4 @@
-# Chef InSpec test for recipe eerbit::install_errbit
+# Chef InSpec test for recipe errbit::install_errbit
 
 # The Chef InSpec reference, with examples and extensive documentation, can be
 # found at https://docs.chef.io/inspec/resources/

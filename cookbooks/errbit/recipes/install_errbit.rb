@@ -1,14 +1,16 @@
+#TODO: configure port, host, user, pass from env vars
+#TODO: test with last ruby version
 #
-# Cookbook:: eerbit
+# Cookbook:: errbit
 # Recipe:: install_errbit
 #
 # Copyright:: 2023, The Authors, All Rights Reserved.
 
 # Clone errbit repo
-git 'name' do
- destination '/root'
- repository 'https://github.com/errbit/errbit.git'
- action :sync
+git '/root/errbit' do
+  repository 'https://github.com/errbit/errbit.git'
+  revision 'main'  # or specify a specific branch, tag, or commit
+  action :sync
 end
 
 # Execute install errbit
@@ -24,10 +26,10 @@ execute 'errbit_exec_rake' do
   end
 
 # Create systemctl service for errbit
-systemd_unit 'rails-server.service' do
+systemd_unit 'errbit.service' do
     content <<~EOF
       [Unit]
-      Description=Rails Server
+      Description=Errbit Server
       Wants=network.target
       After=network.target
   

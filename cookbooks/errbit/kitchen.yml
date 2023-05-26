@@ -19,5 +19,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[eerbit::default]
+      - recipe[errbit::default]
     attributes:

@@ -1,12 +1,12 @@
 #
-# Cookbook:: eerbit
-# Spec:: install_errbit
+# Cookbook:: errbit
+# Spec:: install_ruby
 #
 # Copyright:: 2023, The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'eerbit::install_errbit' do
+describe 'errbit::install_ruby' do
   context 'When all attributes are default, on Ubuntu 20.04' do
     # for a complete list of available platforms and versions see:
     # https://github.com/chefspec/fauxhai/blob/main/PLATFORMS.md
