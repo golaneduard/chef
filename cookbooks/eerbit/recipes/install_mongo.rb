@@ -1,6 +1,6 @@
 #
 # Cookbook:: eerbit
-# Recipe:: default
+# Recipe:: install_mongo  
 #
 # Copyright:: 2023, The Authors, All Rights Reserved.
 
