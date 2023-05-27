@@ -18,37 +18,74 @@ git errbit_path do
   action :sync
 end
 
-# Execute install errbit
-execute 'errbit_install' do
-    command 'bundle install'
+case node['platform']
+when 'debian'
+  # Execute install errbit
+  execute 'errbit_install' do
+      command 'bundle install'
+      cwd     errbit_path
+    end
+
+  # Execute command
+  execute 'errbit_exec_rake' do
+      command 'bundle exec rake errbit:bootstrap'
+      cwd     errbit_path
+    end
+
+  # Create systemctl service for errbit
+  systemd_unit 'errbit.service' do
+      content <<~EOF
+        [Unit]
+        Description=Errbit Server
+        Wants=network.target
+        After=network.target
+
+        [Service]
+        User=root
+        Group=root
+        WorkingDirectory=#{errbit_path}
+        ExecStart=/bin/bash -lc 'bundle exec rails server -b #{errbit_host} --port=#{errbit_port}'
+        Restart=always
+
+        [Install]
+        WantedBy=multi-user.target
+      EOF
+
+      action [:create, :enable, :start]
+    end
+
+when 'ubuntu'
+  # Execute install errbit
+  execute 'errbit_install' do
+    command '/usr/local/rbenv/shims/bundle install'
     cwd     errbit_path
   end
 
-# Execute command
-execute 'errbit_exec_rake' do
-    command 'bundle exec rake errbit:bootstrap'
+  # Execute command
+  execute 'errbit_exec_rake' do
+    command '/usr/local/rbenv/shims/bundle exec rake errbit:bootstrap'
     cwd     errbit_path
   end
 
-# Create systemctl service for errbit
-systemd_unit 'errbit.service' do
+  # Create systemctl service for errbit
+  systemd_unit 'errbit.service' do
     content <<~EOF
       [Unit]
-      Description=Errbit Server
-      Wants=network.target
-      After=network.target
-  
-      [Service]
-      User=root
-      Group=root
-      WorkingDirectory=#{errbit_path}
-      ExecStart=/bin/bash -lc 'bundle exec rails server -b #{errbit_host} --port=#{errbit_port}'
-      Restart=always
-  
-      [Install]
-      WantedBy=multi-user.target
-    EOF
-  
-    action [:create, :enable, :start]
-  end
+        Description=Errbit Server
+        Wants=network.target
+        After=network.target
 
+        [Service]
+        User=root
+        Group=root
+        WorkingDirectory=#{errbit_path}
+        ExecStart=/bin/bash -lc '/usr/local/rbenv/shims/bundle exec rails server -b #{errbit_host} --port=#{errbit_port}'
+        Restart=always
+
+        [Install]
+        WantedBy=multi-user.target
+      EOF
+
+      action [:create, :enable, :start]
+    end
+end
