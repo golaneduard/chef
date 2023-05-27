@@ -1,0 +1,38 @@
+---
+driver:
+  name: vagrant
+  sudo: true
+
+provisioner:
+  name: chef_infra
+
+platforms:
+  - name: debian
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.56.10"}]
+      box: debian/bullseye64
+      box_check_update: false
+      customize:
+        memory: 4096
+        cpus: 4
+  - name: ubuntu
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.56.11"}]
+      box: ubuntu/jammy64
+      box_check_update: false
+      customize:
+        memory: 4096
+        cpus: 4
+
+suites:
+  - name: default
+    run_list:
+      - recipe[errbit::default]
+    attributes:
+    verifier:
+      inspec_tests:
+        - test/integration/default/install_errbit_test.rb
+        - test/integration/default/install_mongo_test.rb
+        - test/integration/default/install_ruby_test.rb
