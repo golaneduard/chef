@@ -31,3 +31,8 @@ suites:
     run_list:
       - recipe[errbit::default]
     attributes:
+    verifier:
+      inspec_tests:
+        - test/integration/default/install_errbit_test.rb
+        - test/integration/default/install_mongo_test.rb
+        - test/integration/default/install_ruby_test.rb
