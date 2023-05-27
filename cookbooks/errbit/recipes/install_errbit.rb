@@ -7,7 +7,12 @@
 # Copyright:: 2023, The Authors, All Rights Reserved.
 
 # Clone errbit repo
-git '/root/errbit' do
+errbit_port = node['errbit']['port']
+errbit_host = node['errbit']['host']
+errbit_path = '/etc/errbit'
+
+
+git errbit_path do
   repository 'https://github.com/errbit/errbit.git'
   revision 'main'  # or specify a specific branch, tag, or commit
   action :sync
@@ -16,13 +21,13 @@ end
 # Execute install errbit
 execute 'errbit_install' do
     command 'bundle install'
-    cwd     '/root/errbit'
+    cwd     errbit_path
   end
 
 # Execute command
 execute 'errbit_exec_rake' do
     command 'bundle exec rake errbit:bootstrap'
-    cwd     '/root/errbit'
+    cwd     errbit_path
   end
 
 # Create systemctl service for errbit
@@ -36,8 +41,8 @@ systemd_unit 'errbit.service' do
       [Service]
       User=root
       Group=root
-      WorkingDirectory=/root/errbit
-      ExecStart=/bin/bash -lc 'bundle exec rails server'
+      WorkingDirectory=#{errbit_path}
+      ExecStart=/bin/bash -lc 'bundle exec rails server -b #{errbit_host} --port=#{errbit_port}'
       Restart=always
   
       [Install]
